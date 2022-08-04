@@ -80,23 +80,22 @@ router.post("/login", async (req, res) => {
     }else if (req.body.phoneNumber) {
         user = await User.findOne({ phoneNumber: req.body.phoneNumber }) 
     }else {
-        res.status(400).json("لطفا یکی از فیلد های ایمیل یا شماره تماس را وارد کنید")
-        return;
+      return res.status(400).json("لطفا یکی از فیلد های ایمیل یا شماره تماس را وارد کنید")
+
     }
      if(!user){
-        await res.status(404).json("حساب مورد نظر وجود ندارد");
-        return;
+        return res.status(404).json("حساب مورد نظر وجود ندارد");
         }
     const validPassword = await bcrypt.compare(req.body.password, user.password)
     if (!validPassword){ 
-        res.status(400).json("رمز وارد شده اشتباه است")
-        return;
+        return res.status(400).json("رمز وارد شده اشتباه است")
+
         }else {
       //Generate an access token
       const accessToken =  generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
       refreshTokens.push(refreshToken);
-      res.status(200).json({
+      return res.status(200).json({
         fullName: user.firstName + " " + user.lastName,
         isAdmin: user.isAdmin,
         accessToken,

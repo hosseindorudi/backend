@@ -22,10 +22,16 @@ mongoose.connect(
 );
 
 const corsOptions ={
-  origin:'*', 
+  origin:'http://localhost:3000', 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200,
+  
 }
+
+
+
+
+app.use(cors(corsOptions)) // Use this after the variable declaration
 
 //middleware
 app.use(express.json());
@@ -33,7 +39,7 @@ app.use("/images", express.static(path.join(__dirname, "/images")))
 
 
 
-app.use(cors(corsOptions)) // Use this after the variable declaration
+
 
 
 app.use("/api/auth", authRoute);
